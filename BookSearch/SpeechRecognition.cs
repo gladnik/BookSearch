@@ -22,7 +22,7 @@ namespace BookSearch
         /// <param name="wavFilePath">Full path to the .wav file.</param>
         /// <param name="flacFilePath">Full path to the .flac file.</param>
         /// <returns>Returns sample rate of the .flac file.</returns>
-        public static int convertWav2Flac(String wavFilePath, String flacFilePath)
+        public static int ConvertWav2Flac(String wavFilePath, String flacFilePath)
         {
             int sampleRate = 0;
 
@@ -50,7 +50,7 @@ namespace BookSearch
         /// <param name="flacFilePath">Full path to the .flac file.</param>
         /// <param name="sampleRate">Sample rate of the .flac file.</param>
         /// <returns>Returns the result of request to the Google Speech API in JSON format.</returns>
-        public static String requestGoogleSpeech(String flacFilePath, int sampleRate)
+        public static String RequestGoogleSpeech(String flacFilePath, int sampleRate)
         {
             //TODO: Add language selector
             //TODO: Fix exception that appears here
@@ -59,18 +59,18 @@ namespace BookSearch
 
             byte[] byteArray = File.ReadAllBytes(flacFilePath);
 
-            // Set the ContentType property of the WebRequest.
-            request.ContentType = "audio/x-flac; rate=" + sampleRate; //"8000 or 16000";        
+            //Set the ContentType property of the WebRequest.
+            request.ContentType = "audio/x-flac; rate=" + sampleRate; //"8000 or 16000"        
             request.ContentLength = byteArray.Length;
 
-            // Get the request stream.
+            //Get the request stream.
             Stream dataStream = request.GetRequestStream();
-            // Write the data to the request stream.
+            //Write the data to the request stream.
             dataStream.Write(byteArray, 0, byteArray.Length);
 
             dataStream.Close();
 
-            // Get the response.
+            //Get the response.
             WebResponse response = request.GetResponse();
 
             dataStream = response.GetResponseStream();
@@ -79,7 +79,7 @@ namespace BookSearch
             // Read the content.
             string responseFromServer = reader.ReadToEnd();
 
-            // Clean up the streams.
+            //Clean up the streams.
             reader.Close();
             dataStream.Close();
             response.Close();
@@ -92,8 +92,17 @@ namespace BookSearch
         /// </summary>
         /// <param name="requestResult">String with the result of request to the Google Speech API in JSON format.</param>
         /// <returns>Returns the recognized text if any and if the confidence is higher than confidenceLowerBound. Otherwise returns error.</returns>
-        public static String parseJson(String requestResult)
+        public static String ParseJson(String requestResult)
         {
+            /*
+            Что означают поля ответа:
+            поле status = 0 — запись успешно распознана
+            поле status = 5 — запись не распознана
+            поле id — это уникальный идентификатор запроса
+            поле hypotheses — результат распознования, в нем 2 подполя:
+            utterance — распознанная фраза
+            confidence — достоверность распознавания
+            */
             String parsingResult = "";
             Json.RecognitionResult result = Json.Parse(requestResult);
             if (result.hypotheses.Length > 0)
@@ -120,7 +129,7 @@ namespace BookSearch
         /// </summary>
         /// <param name="wavFilePath">Full path to the .wav file.</param>
         /// <returns>Returns recognized text.</returns>
-        public static String getRecognizedText(String wavFilePath)
+        public static String GetRecognizedText(String wavFilePath)
         {
             String recognitionResult = "";
 
@@ -128,11 +137,11 @@ namespace BookSearch
             {
                 String flacFilePath = flacFileName;
 
-                int sampleRate = convertWav2Flac(wavFilePath, flacFilePath);
+                int sampleRate = ConvertWav2Flac(wavFilePath, flacFilePath);
 
-                String requestResult = requestGoogleSpeech(flacFilePath, sampleRate);
+                String requestResult = RequestGoogleSpeech(flacFilePath, sampleRate);
 
-                recognitionResult = parseJson(requestResult);
+                recognitionResult = ParseJson(requestResult);
             }
             catch (Exception e)
             {

@@ -58,6 +58,12 @@
     <Reference Include="CUETools.Codecs.FLAKE">
       <HintPath>..\cuetoolsnet\bin\Debug\CUETools.Codecs.FLAKE.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio">
+      <HintPath>NAudio1.6\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.WindowsMediaFormat">
+      <HintPath>NAudio1.6\NAudio.WindowsMediaFormat.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -72,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Json.cs" />
+    <Compile Include="AudioRecording.cs" />
     <Compile Include="SpeechRecognition.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
