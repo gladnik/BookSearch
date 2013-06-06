@@ -24,9 +24,7 @@ namespace BookSearch
 
             String testSpeechRecognition = "";
             testSpeechRecognition = SpeechRecognition.GetRecognizedText(wavFileName);
-            testSpeechRecognition += "";
-
-
+            MessageBox.Show(testSpeechRecognition, "Recognized text", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
     }
 }
