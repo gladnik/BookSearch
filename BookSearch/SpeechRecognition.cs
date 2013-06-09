@@ -22,7 +22,7 @@ namespace BookSearch
         /// <param name="wavFilePath">Full path to the .wav file.</param>
         /// <param name="flacFilePath">Full path to the .flac file.</param>
         /// <returns>Returns sample rate of the .flac file.</returns>
-        public static int ConvertWav2Flac(String wavFilePath, String flacFilePath)
+        public static int ConvertWavToFlac(String wavFilePath, String flacFilePath)
         {
             int sampleRate = 0;
 
@@ -137,7 +137,7 @@ namespace BookSearch
             {
                 String flacFilePath = flacFileName;
 
-                int sampleRate = ConvertWav2Flac(wavFilePath, flacFilePath);
+                int sampleRate = ConvertWavToFlac(wavFilePath, flacFilePath);
 
                 String requestResult = RequestGoogleSpeech(flacFilePath, sampleRate);
 
