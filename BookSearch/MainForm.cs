@@ -9,6 +9,8 @@ using System.Timers;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Net;
+
 namespace BookSearch
 {
     public partial class MainForm : Form
@@ -29,13 +31,11 @@ namespace BookSearch
             */
 
             //Test of the text search for books
-            String searchResult = "";
-            String bookIdentifier = ""; //Google Books Search format
-            String requestedText = "";
-            //searchResult = GoogleBooksSearch.RequestGoogleBooks();
-            MessageBox.Show(searchResult, "Search results", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            //GoogleBooksSearch.SaveResponse();
-
+            String bookIdentifier = "6CgNP0U7AeAC"; //Google Books Search format
+            String requestedText = "the";
+            //requestedText = speechRecognitionResult;
+            JsonBooks.SearchResult searchResult = GoogleBooksSearch.GetResult(bookIdentifier, requestedText);
+            requestedText += ""; //Breakpoint
         }
     }
 }

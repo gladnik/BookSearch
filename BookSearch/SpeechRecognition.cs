@@ -77,7 +77,7 @@ namespace BookSearch
             // Open the stream using a StreamReader for easy access.
             StreamReader reader = new StreamReader(dataStream);
             // Read the content.
-            string responseFromServer = reader.ReadToEnd();
+            String responseFromServer = reader.ReadToEnd();
 
             //Clean up the streams.
             reader.Close();
@@ -92,7 +92,7 @@ namespace BookSearch
         /// </summary>
         /// <param name="requestResult">String with the result of request to the Google Speech API in JSON format.</param>
         /// <returns>Returns the recognized text if any and if the confidence is higher than confidenceLowerBound. Otherwise returns error.</returns>
-        public static String ParseJson(String requestResult)
+        public static String ParseSpeechRecognitionResult(String requestResult)
         {
             /*
             Что означают поля ответа:
@@ -104,23 +104,24 @@ namespace BookSearch
             confidence — достоверность распознавания
             */
             String parsingResult = "";
-            Json.RecognitionResult result = Json.Parse(requestResult);
+            JsonSpeech.RecognitionResult result = JsonSpeech.Parse(requestResult);
             if (result.hypotheses.Length > 0)
             {
-                Json.RecognizedItem item = result.hypotheses.First();
+                JsonSpeech.RecognizedItem item = result.hypotheses.First();
                 if (item.confidence > confidenceLowerBound)
                 {
                     parsingResult = item.utterance;
                 }
                 else
                 {
-                    parsingResult = "Error: Low confidence";
+                    parsingResult = "Error: Low confidence.";
                 }
             }
             else
             {
-                parsingResult = "Error: No recognized text";
+                parsingResult = "Error: No recognized text.";
             }
+
             return parsingResult;
         }
 
@@ -141,11 +142,11 @@ namespace BookSearch
 
                 String requestResult = RequestGoogleSpeech(flacFilePath, sampleRate);
 
-                recognitionResult = ParseJson(requestResult);
+                recognitionResult = ParseSpeechRecognitionResult(requestResult);
             }
             catch (Exception e)
             {
-                recognitionResult = e.Message;
+                recognitionResult = "Error: " + e.Message;
             }
 
             return recognitionResult;
