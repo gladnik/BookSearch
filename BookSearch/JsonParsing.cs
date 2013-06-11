@@ -82,7 +82,7 @@ namespace BookSearch
             public int number_of_results;
 
             [DataMember]
-            public SearchSpell[] spellresults;
+            public SearchSpell spellresults;
             
             [DataMember]
             public SearchItem[] search_results;

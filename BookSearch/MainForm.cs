@@ -32,7 +32,8 @@ namespace BookSearch
 
             //Test of the text search for books
             String bookIdentifier = "6CgNP0U7AeAC"; //Google Books Search format
-            String requestedText = "the";
+            //String requestedText = "job";
+            String requestedText = "job afte";
             //requestedText = speechRecognitionResult;
             JsonBooks.SearchResult searchResult = GoogleBooksSearch.GetResult(bookIdentifier, requestedText);
             requestedText += ""; //Breakpoint
